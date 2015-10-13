@@ -10,6 +10,7 @@ df <- read.csv(file_path, stringsAsFactors = FALSE)
 
 # Replace "." (i.e., period) with "_" in the column names.
 names(df) <- gsub("\\.+", "_", names(df))
+
 str(df) # Uncomment this and  run just the lines to here to get column types to use for getting the list of measures.
 
 measures <- c("DISTrictNUMBER", "SCHOOLNUMBER", "AEC_10", "Charter", "Online", "EMH_2lvl", "LT100pnts", "School_Grade", "rank_tot", "Overall_ACH_Grade", "Read_Ach_Grade", "Math_Ach_Grade", "Write_Ach_Grade", "Sci_Ach_Grade", "Overall_Weighted_Growth_Grade", "Read_Growth_Grade", "Math_Growth_Grade", "Write_Growth_Grade", "SPF_PS_IND_GRAD_RATE")
