@@ -5,23 +5,20 @@ require(dplyr)
 names(final_grades)[names(final_grades)=="SCHOOLNUMBER"] <- "SCHOOL_CODE"
 names(final_grades)
 
-join_df <- dplyr::inner_join(final_grades, enrl_working, by="SCHOOL_CODE", copy=TRUE)
-View(join_df)
+df <- transform(join_df, SCHOOL_CODE = as.numeric(paste(SCHOOL_CODE)))
+join_df <- dplyr::inner_join(final_grades, enrl_working, k_12_frl, by="SCHOOL_CODE", copy=TRUE)
 
-#join_df <- data.frame(lapply(join_df, as.numeric(as.character(join_df))), stringsAsFactors=FALSE)
+# Convert Columns to correct type 
+indx <- setdiff(names(join_df),true_names)
+join_names = c("SCHOOLNAME", "DISTRICTNAME", "EMH", "EMH_COMBINED", "INITIAL_PLANTYPE", "FINAL_PLANTYPE", "NOTES", "ORGANIZATION_NAME", "SCHOOL_NAME")
+join_df[indx] <- lapply(join_df[indx], function(x) as.numeric(as.character(x)))
+join_df[join_names] <- lapply(join_df[true_names], function(x) as.character(x))
 
-#x <- join_df %>% select(SCHOOL_CODE, MATH_GROWTH_GRADE) %>% filter (MATH_GROWTH_GRADE > 10) %>% tbl_df
-#x
+k_names = c("DISTRICT_NAME", "SCHOOL_NAME")
+k_nums = c("DISTRICT_CODE","SCHOOL_CODE")
+k_12_frl[k_names] <- lapply(k_12_frl[k_names], function(x) as.character(x))
+k_12_frl[k_nums] <- lapply(k_12_frl[k_nums], function(x) as.numeric(as.character(x)))
 
-#join_df <- data.frame(lapply(join_df, as.numeric(as.character(x))), stringsAsFactors=FALSE)
-
-#attempting to change everything to not a factor
-#indx <- sapply(k_12_frl, is.factor)
-#k_12_frl[indx] <- data.frame(lapply(k_12_frl[indx], function(x) as.numeric(as.character(x))), stringsAsFactors = FALSE)
-View (k_12_frl)
-
-#k_12_frl <- data.frame(lapply(k_12_frl, as.numeric(as.character(x))), stringsAsFactors=FALSE)
-
-final_df <- dplyr::inner_join(k_12_frl, join_df, by="SCHOOL_CODE", copy=TRUE)
-View (final_df)
+final_df <- dplyr::inner_join(join_df, k_12_frl, by="SCHOOL_CODE", copy=TRUE)
+str(final_df)
 
