@@ -68,30 +68,136 @@ img {
 </div>
 
 
-<div id="part-1-extracting-and-loading-data-into-sql-statement" class="section level2">
-<h2><strong>Part 1 Extracting and Loading Data into SQL Statement</strong></h2>
-<p>For our project, we extracted data from three different tables concerning education in America in 2011. The first table depicted grades such as math, writing, and reading as well as their growth rates.</p>
-<p>The code that we used to extract, transform, and load the data into an sql statement is as follows:</p>
 <pre class="r"><code>source(&quot;../01 Data/ETL_1.R&quot;,echo = TRUE)</code></pre>
-<p>The second table depicted information on free and reduced lunch within the different schools.</p>
-<p>The code we used is as follows:</p>
-<pre class="r"><code>source(&quot;../01 Data/ELT_2.R&quot;,echo = TRUE)</code></pre>
-<p>The last table we used depicted the percentages of the different races in the school.</p>
-<p>The code we used is as follows:</p>
-<pre class="r"><code>source(&quot;../01 Data/ETL_3.R&quot;,echo = TRUE)</code></pre>
-</div>
-<div id="part-2-importing-data-into-sql" class="section level2">
-<h2><strong>Part 2 Importing Data into SQL</strong></h2>
-<p>Then, we took the data in SQL and created three separate dataframes using the code below:</p>
-<pre class="r"><code>source(&quot;../02 Data Wrangling/Final Grades.R&quot;,echo = TRUE)</code></pre>
-</div>
-<div id="part-3-combining-tables" class="section level2">
-<h2><strong>Part 3 Combining Tables</strong></h2>
-<p>To combine tables, we picked the primary key of the school code for each table as the common bond between all three tables. To combine the tables, we used the code below: #<code>{r eval = FALSE} #source(&quot;../02 Data Wrangling/Data Joining.R&quot;, echo = TRUE) #</code></p>
-</div>
-<div id="part-4-creating-interesting-plots" class="section level2">
-<h2><strong>Part 4 Creating interesting plots</strong></h2>
-</div>
+<pre><code>## 
+## &gt; require(tidyr)</code></pre>
+<pre><code>## Loading required package: tidyr</code></pre>
+<pre><code>## 
+## &gt; require(dplyr)</code></pre>
+<pre><code>## Loading required package: dplyr
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre><code>## 
+## &gt; require(ggplot2)</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## 
+## &gt; setwd(&quot;~/DataVisualization/DV_RProject3/01 Data&quot;)
+## 
+## &gt; file_path &lt;- &quot;2011_final_grade.csv&quot;
+## 
+## &gt; df &lt;- read.csv(file_path, stringsAsFactors = FALSE)
+## 
+## &gt; names(df) &lt;- gsub(&quot;\\.+&quot;, &quot;_&quot;, names(df))
+## 
+## &gt; str(df)
+## 'data.frame':    2069 obs. of  26 variables:
+##  $ SCHOOLNAME                   : chr  &quot;BEAR CREEK ELEMENTARY SCHOOL&quot; &quot;CHERRY HILLS VILLAGE ELEMENTARY SCHOOL&quot; &quot;CHEYENNE MOUNTAIN ELEMENTARY SCHOOL&quot; &quot;CHINOOK TRAIL ELEMENTARY SCHOOL&quot; ...
+##  $ DISTrictNUMBER               : int  480 130 1020 1040 1040 880 130 880 1560 1420 ...
+##  $ DISTRICTNAME                 : chr  &quot;BOULDER VALLEY RE 2&quot; &quot;CHERRY CREEK 5&quot; &quot;CHEYENNE MOUNTAIN 12&quot; &quot;ACADEMY 20&quot; ...
+##  $ EMH                          : chr  &quot;E&quot; &quot;E&quot; &quot;E&quot; &quot;E&quot; ...
+##  $ EMH_Combined                 : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ SCHOOLNUMBER                 : int  652 1574 1586 1615 1630 1908 1916 2027 2089 5758 ...
+##  $ AEC_10                       : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Charter                      : int  0 0 0 0 1 0 0 0 0 0 ...
+##  $ Online                       : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ INITIAL_PlanType             : chr  &quot;Performance Plan&quot; &quot;Performance Plan&quot; &quot;Performance Plan&quot; &quot;Performance Plan&quot; ...
+##  $ FINAL_PlanType               : chr  &quot;Performance Plan&quot; &quot;Performance Plan&quot; &quot;Performance Plan&quot; &quot;Performance Plan&quot; ...
+##  $ Notes                        : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ EMH_2lvl                     : int  1 1 1 1 2 1 1 1 1 1 ...
+##  $ LT100pnts                    : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ School_Grade                 : int  13 13 13 13 13 13 13 13 13 13 ...
+##  $ rank_tot                     : int  1 1 1 1 1 1 1 1 1 1 ...
+##  $ Overall_ACH_Grade            : int  13 12 13 12 13 12 12 13 12 12 ...
+##  $ Read_Ach_Grade               : int  12 12 12 12 13 12 12 13 12 12 ...
+##  $ Math_Ach_Grade               : int  13 12 12 12 12 13 13 13 13 12 ...
+##  $ Write_Ach_Grade              : int  12 13 13 12 12 12 12 13 11 10 ...
+##  $ Sci_Ach_Grade                : int  12 12 12 11 13 12 12 13 12 11 ...
+##  $ Overall_Weighted_Growth_Grade: int  13 13 12 13 10 12 13 12 13 13 ...
+##  $ Read_Growth_Grade            : int  12 13 9 12 9 13 13 12 13 12 ...
+##  $ Math_Growth_Grade            : int  12 12 10 13 9 10 12 10 13 12 ...
+##  $ Write_Growth_Grade           : int  12 13 12 9 10 11 12 10 13 12 ...
+##  $ SPF_PS_IND_GRAD_RATE         : chr  &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+## 
+## &gt; measures &lt;- c(&quot;DISTrictNUMBER&quot;, &quot;SCHOOLNUMBER&quot;, &quot;AEC_10&quot;, 
+## +     &quot;Charter&quot;, &quot;Online&quot;, &quot;EMH_2lvl&quot;, &quot;LT100pnts&quot;, &quot;School_Grade&quot;, 
+## +     &quot;rank_tot&quot;, &quot;O ...&quot; ... [TRUNCATED] 
+## 
+## &gt; for (n in names(df)) {
+## +     df[n] &lt;- data.frame(lapply(df[n], gsub, pattern = &quot;[^ -~]&quot;, 
+## +         replacement = &quot;&quot;))
+## + }
+## 
+## &gt; dimensions &lt;- setdiff(names(df), measures)
+## 
+## &gt; if (length(measures) &gt; 1 || !is.na(dimensions)) {
+## +     for (d in dimensions) {
+## +         df[d] &lt;- data.frame(lapply(df[d], gsub, pattern = &quot;[\&quot;']&quot;, ...&quot; ... [TRUNCATED] 
+## 
+## &gt; library(lubridate)
+## 
+## &gt; if (length(measures) &gt; 1 || !is.na(measures)) {
+## +     for (m in measures) {
+## +         df[m] &lt;- data.frame(lapply(df[m], gsub, pattern = &quot;[^--.0-9]&quot;, .... [TRUNCATED] 
+## 
+## &gt; write.csv(df, paste(gsub(&quot;.csv&quot;, &quot;&quot;, file_path), &quot;.reformatted.csv&quot;, 
+## +     sep = &quot;&quot;), row.names = FALSE, na = &quot;&quot;)
+## 
+## &gt; tableName &lt;- gsub(&quot; +&quot;, &quot;_&quot;, gsub(&quot;[^A-z, 0-9, ]&quot;, 
+## +     &quot;&quot;, gsub(&quot;.csv&quot;, &quot;&quot;, file_path)))
+## 
+## &gt; sql &lt;- paste(&quot;CREATE TABLE&quot;, tableName, &quot;(\n-- Change table_name to the table name you want.\n&quot;)
+## 
+## &gt; if (length(measures) &gt; 1 || !is.na(dimensions)) {
+## +     for (d in dimensions) {
+## +         sql &lt;- paste(sql, paste(d, &quot;varchar2(4000),\n&quot;))
+## +     }
+## + .... [TRUNCATED] 
+## 
+## &gt; if (length(measures) &gt; 1 || !is.na(measures)) {
+## +     for (m in measures) {
+## +         if (m != tail(measures, n = 1)) 
+## +             sql &lt;- paste(sq .... [TRUNCATED] 
+## 
+## &gt; sql &lt;- paste(sql, &quot;);&quot;)
+## 
+## &gt; cat(sql)
+## CREATE TABLE 2011_final_grade (
+## -- Change table_name to the table name you want.
+##  SCHOOLNAME varchar2(4000),
+##  DISTRICTNAME varchar2(4000),
+##  EMH varchar2(4000),
+##  EMH_Combined varchar2(4000),
+##  INITIAL_PlanType varchar2(4000),
+##  FINAL_PlanType varchar2(4000),
+##  Notes varchar2(4000),
+##  DISTrictNUMBER number(38,4),
+##  SCHOOLNUMBER number(38,4),
+##  AEC_10 number(38,4),
+##  Charter number(38,4),
+##  Online number(38,4),
+##  EMH_2lvl number(38,4),
+##  LT100pnts number(38,4),
+##  School_Grade number(38,4),
+##  rank_tot number(38,4),
+##  Overall_ACH_Grade number(38,4),
+##  Read_Ach_Grade number(38,4),
+##  Math_Ach_Grade number(38,4),
+##  Write_Ach_Grade number(38,4),
+##  Sci_Ach_Grade number(38,4),
+##  Overall_Weighted_Growth_Grade number(38,4),
+##  Read_Growth_Grade number(38,4),
+##  Math_Growth_Grade number(38,4),
+##  Write_Growth_Grade number(38,4),
+##  SPF_PS_IND_GRAD_RATE number(38,4)
+##  );</code></pre>
 
 
 </div>

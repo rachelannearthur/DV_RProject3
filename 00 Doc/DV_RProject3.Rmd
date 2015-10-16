@@ -5,3 +5,6 @@ date: "October 12, 2015"
 output: html_document
 ---
 
+```{r}
+source("../01 Data/ETL_1.R",echo = TRUE)
+```
