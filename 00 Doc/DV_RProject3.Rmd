@@ -4,7 +4,56 @@ author: "Monica and Rachel"
 date: "October 12, 2015"
 output: html_document
 ---
+```{r, include=FALSE}
+require(tidyr)
+require(dplyr)
+require(ggplot2)
+require (jsonlite)
+require (RCurl)
+```  
 
+##**Part 1 Extracting Data and Transforming into SQL Statement**
+For our project, we extracted data from three different tables displaying education statistics from different A schools, Elementaries, Middle Schools, and High Schools in the United States in 2011.  
+
+The first table displays the different schools and their varying Math, Reading, and Writing grades as well as their growth rates.  
+
+The code that we used to extract, transform, and load the data into an sql statement is as follows: 
 ```{r}
 source("../01 Data/ETL_1.R",echo = TRUE)
 ```
+
+The second table we used displays the schools as well as the free and reduced lunches. The code we used is as follows:
+```{r}
+source("../01 Data/ELT_2.R",echo = TRUE)
+```
+
+The last table we used displays the schools as well as the different ethnic percentages. The code we used is as follows:
+```{r}
+source("../01 Data/ETL_3.R",echo = TRUE)
+```
+
+##**Part 2 Importing into SQL and creating dataframes**
+Next, we used the SQL statement and imported the data into SQL. We then took the data from SQL and put them into dataframes in R using this code below:
+```{r}
+source("../02 Data Wrangling/Final Grades.R",echo = TRUE)
+```
+
+##**Part 3 Combining the three tables**
+To combine the tables, we used the school code for the schools as the primary key that connects the three tables together. We used the code below to join all three tables together.
+
+#```{r}
+#source("../02 Data Wrangling/Data Joining.R",echo = TRUE)
+#```
+
+##**Part 4 Creating interesting graphics through data wrangling**
+####**Data Set 1** 
+For this data set, we compared the math growth score with the reading growth score for A schools, elementaries, high schools, and middle schools throughout the United States in 2011. Our code is written below: 
+```{r}
+source("../02 Data Wrangling/Set 1.R",echo = TRUE)
+```
+  
+We noticed that there doesn't appear to be correlation between the math growth score and the reading growth score. However, we do see that for many Elementaries and Middle schools, the growth rate tends to cluster around the rate of 10. 
+
+####**Data Set 2**
+
+####**Data Set 3** 

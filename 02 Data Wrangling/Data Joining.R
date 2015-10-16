@@ -20,5 +20,4 @@ k_12_frl[k_names] <- lapply(k_12_frl[k_names], function(x) as.character(x))
 k_12_frl[k_nums] <- lapply(k_12_frl[k_nums], function(x) as.numeric(as.character(x)))
 
 final_df <- dplyr::inner_join(join_df, k_12_frl, by="SCHOOL_CODE", copy=TRUE)
-str(final_df)
 
