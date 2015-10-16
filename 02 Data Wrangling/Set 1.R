@@ -21,7 +21,7 @@ plot1 <- ggplot() +
         geom="point",
         geom_params=list(),
         position= position_jitter(width=0.3)
-  ) + theme(axis.text.x=element_text(angle= 80, vjust=0.8, lineheight = 1.5),panel.grid.major =element_line(size=0.1)) 
+  ) + 
 
 plot1 
 
